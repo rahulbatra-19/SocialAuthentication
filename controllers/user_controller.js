@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const crypto = require('crypto');
 const forgotPass = require('../mailers/forgot_pass_mailer');
+const bcrypt = require('bcrypt');
 
 
 // Sign In data
@@ -22,15 +23,18 @@ module.exports.signUp = function (req, res) {
     });
 }
 // getting Sign up data
-module.exports.create = function (req, res) {
+module.exports.create = async function (req, res) {
+    try{
     if (req.body.password != req.body.confirm_password) {
         return res.redirect('back');
     }
-    User.findOne({ email: req.body.email }).then(user => {
+    let user = await User.findOne({ email: req.body.email }); 
         if (!user) {
+            let hash = await bcrypt.hash(req.body.password, 13);
+            console.log(hash);
             User.create({
                 email: req.body.email,
-                password: req.body.password,
+                password: hash,
                 name: req.body.name
             }).then(user => {
                 return res.redirect('/users/sign-in');
@@ -41,9 +45,9 @@ module.exports.create = function (req, res) {
             return res.redirect('back');
         }
 
-    }).catch(err => {
+    }catch(err) {
         console.log('Error in finding user in signing-up!!', err);
-    });
+    };
 }
 
 
@@ -68,9 +72,10 @@ module.exports.resetPassword = async function (req, res) {
         let user = await User.findById(req.user._id);
 
         let oldPassword = req.body.currentPassword;
-        if (oldPassword == user.password) {
+        let ismatch = await bcrypt.compare(oldPassword, user.password);
+        if (ismatch) {
             if (req.body.password == req.body.confirm_password) {
-                user.password = req.body.password;
+                user.password = await bcrypt.hash(req.body.password,13);
                 req.flash('success', 'Password changed');
                 user.save();
             } else {
@@ -131,15 +136,14 @@ module.exports.passChange = function (req, res) {
     });
 }
 
-module.exports.resetPass = function (req, res) {
-
-
+module.exports.resetPass = async function (req, res) {
+    try{
     let token = req.body.token;
 
-    User.findOne({
+    let user = await User.findOne({
         'resetToken.token': token,
         'resetToken.expiry': { $gt: Date.now() }
-    }).then(user => {
+    });
         if (!user) {
             // Token is invalid or expired
             req.flash('success', 'Invalid or expired password reset token');
@@ -150,19 +154,19 @@ module.exports.resetPass = function (req, res) {
             req.flash('success', 'Password do not match');
             return res.redirect('back');
         }
-
-        user.password = req.body.password;
+        let hash = await bcrypt.hash(req.body.password,13);
+        user.password = hash;
         user.resetToken.token = null;
         user.resetToken.expiry = null;
         user.save();
         req.flash('success', 'Pasword Changed');
         return res.redirect('/users/sign-in');
 
-    }).catch(err => {
+    } catch(err) {
         console.log('Error finding user by token:', err);
         req.flash('error', 'Something went wrong');
         return res.redirect('/users/forgot-pass');
-    });
+    };
 
 
 }

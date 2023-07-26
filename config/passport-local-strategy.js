@@ -1,4 +1,5 @@
 const passport = require('passport');
+const bcrypt = require('bcrypt');
 
 const LocalStratergy = require('passport-local').Strategy;
 
@@ -9,24 +10,24 @@ passport.use(new LocalStratergy({
     usernameField: 'email',
     passReqToCallback: true
 },
-    function (req, email, password, done) {
-        // find a user and establish the identity     
-        User.findOne({ email: email })
-            .then(user => {
+    async function (req, email, password, done) {
+        // find a user and establish the identity  
+        try{   
+        let user = await User.findOne({ email: email });
                 if (!user) {
                     req.flash('success', 'Invalid Username');
                     return done(null, false);
                 }
-                else if (user.password != password) {
+                else if (!(await bcrypt.compare(password,user.password ))) {
                     req.flash('success', 'Invalid Password');
                     return done(null, false);
                 }
                 return done(null, user);
-            })
-            .catch(err => {
+            }
+            catch(err) {
                 req.flash('error', err);
                 return done(err);
-            });
+            };
     }
 ));
 

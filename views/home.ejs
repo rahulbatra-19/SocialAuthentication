@@ -1,6 +1,17 @@
 <link rel="stylesheet" href="/css/home.css">
-<%=title%>
+
+
+<div>
+    <p>
+        <a href="/users/sign-out">Sign Out</a>
+        </p>
+    <p>
+    Welcome to <%=title%> Page.
+</p>
+    <p>
     <button id="reset-password-button">Reset Password</button>
+
+    </p>
 
 
     <form action="/users/resetPassword" method="post" id="reset-password-form">
@@ -9,5 +20,10 @@
         <input type="password" name="confirm_password" placeholder="enter new password again">
         <input type="submit" value="Update">
     </form>
+ 
 
-    <a href="/users/sign-out">Sign Out</a>
+</div>
+
+
+
+

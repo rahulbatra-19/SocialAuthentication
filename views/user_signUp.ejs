@@ -1,4 +1,7 @@
-<%=title%>
+<link rel="stylesheet" href="/css/sign-up.css">
+
+<div id="sign-out" >
+    Welcome to <%=title%> Page
     <form action="/users/create" method="post">
         <input type="text" name="name" placeholder="Enter your name" id="">
         <input type="email" name="email" placeholder="Enter your email" id="">
@@ -7,7 +10,10 @@
         <input type="submit" value="Sign Up">
     </form>
 
-    <a href="/users/sign-in">Sign In</a>
+    <p>
+        <a href="/users/sign-in">Go to Sign In Page</a>
+    </p>
+
 
 
     <p>
@@ -17,3 +23,5 @@
     <p>
         <a href="/users/auth/google">Google Sign In/Sign Up</a>
     </p>
+
+</div>
