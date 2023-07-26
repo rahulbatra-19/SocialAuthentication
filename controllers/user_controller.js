@@ -50,3 +50,32 @@ module.exports.destroySession = function(req, res){
     // req.flash('success', 'Logged out successfully!');
     return res.redirect('/users/sign-in');
 }
+
+// To reset the password  
+module.exports.resetPassword = async function(req, res){
+    try {
+        let user = await User.findById(req.user._id);
+        if(!user){
+            console.log("User not found");
+        }
+        else{
+            let oldPassword = req.body.currentPassword;
+            if(oldPassword == user.password){
+                if(req.body.password == req.body.confirm_password){
+                    user.password = req.body.password;
+                    console.log('Password changed');
+                    user.save();
+                }else{
+                    console.log("Password don't match");
+                }
+            }else{
+
+                console.log('Wrong password');
+            }
+            return res.redirect('/');
+        }
+    } catch (error) {
+        console.log('Error in Resetting Password', error);
+        return res.redirect('/');
+    }
+}

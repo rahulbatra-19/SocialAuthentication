@@ -5,6 +5,8 @@ const port = 8000;
 const db = require('./config/mongoose');
 
 
+const MongoStore = require('connect-mongo');
+
 // user for session cookie
 const session = require('express-session');
 const passport = require('passport');
@@ -31,9 +33,23 @@ app.use(cookieParser());
 app.set('view engine' , 'ejs');
 app.set('views', './views');
 
-
+app.use(
+    session({
+      name: 'SampleApp',
+      secret: 'secketKey',
+      saveUninitialized: false,
+      resave: false,
+      cookie: {
+        maxAge: 1000 * 60 * 100,
+      },
+      store: MongoStore.create({
+        mongoUrl: 'mongodb://localhost/skilltest2_db',
+        autoRemove: 'disabled',
+      }),
+    })
+  );
 app.use(session({
-    name: 'SampleApp',
+    name: '',
     // todo hange the secret before deployment in production mode
     secret: 'blahsomething',
     saveUninitialized: false,
@@ -45,6 +61,9 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(passport.setAuthenticatedUser);
+
 
 // using express Routes  
 app.use('/', require('./routes'));
