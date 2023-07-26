@@ -10,9 +10,12 @@
   "author": "RahulBatra",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-ejs-layouts": "^2.5.1",
-    "mongoose": "^7.4.1"
+    "mongoose": "^7.4.1",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0"
   }
 }
