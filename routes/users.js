@@ -7,7 +7,12 @@ router.get('/sign-up', userController.signUp);
 router.get('/sign-in', userController.signIn);
 router.post('/create', userController.create);
 router.get('/sign-out', userController.destroySession);
-router.post('/reset-password', userController.resetPassword);
+router.post('/resetPassword', userController.resetPassword);
+
+router.get('/forgot-pass',     userController.forgotPass);
+router.post('/passwordForgot', userController.passwordForgot);
+router.get('/passwordChange',  userController.passChange);
+router.post('/reset-password', userController.resetPass);
 
 // use passport as a middleware to authenticate
 router.post('/create-session', passport.authenticate(
@@ -15,6 +20,6 @@ router.post('/create-session', passport.authenticate(
     {
         failureRedirect: '/users/sign-in'
     },
-),  userController.createSession );
+), userController.createSession);
 
 module.exports = router;
