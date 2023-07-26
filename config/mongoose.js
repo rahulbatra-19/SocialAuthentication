@@ -6,7 +6,7 @@ main().catch(err => console.log('Error connecting to db', err));
 
 
 // connect to data base 
-async function main(){
+async function main() {
     await mongoose.connect('mongodb://localhost/skilltest2_db');
 }
 
@@ -14,8 +14,7 @@ async function main(){
 
 const db = mongoose.connection;
 
-db.once('open' , function()
-{
+db.once('open', function () {
     console.log('Successfully connected to the database:: MongoDB');
 });
 

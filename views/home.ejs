@@ -1,16 +1,13 @@
 <link rel="stylesheet" href="/css/home.css">
 <%=title%>
-<button id="reset-password-button">Reset Password</button>
+    <button id="reset-password-button">Reset Password</button>
 
 
-<form action="/users/resetPassword" method="post" id="reset-password-form">
-    <input type="password" name="currentPassword" placeholder="Enter your current password">
-    <input type="password" name="password" placeholder="Enter new Password">
-    <input type="password" name="confirm_password" placeholder="enter new password again">
-    <input type="submit" value="Update">
-</form>
+    <form action="/users/resetPassword" method="post" id="reset-password-form">
+        <input type="password" name="currentPassword" placeholder="Enter your current password">
+        <input type="password" name="password" placeholder="Enter new Password">
+        <input type="password" name="confirm_password" placeholder="enter new password again">
+        <input type="submit" value="Update">
+    </form>
 
-<a href="/users/sign-out">Sign Out</a>
-
-
-
+    <a href="/users/sign-out">Sign Out</a>
