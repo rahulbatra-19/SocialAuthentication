@@ -5,12 +5,18 @@ const forgotPass = require('../mailers/forgot_pass_mailer');
 
 // Sign In data
 module.exports.signIn = function(req, res){
+    if (req.isAuthenticated()) {
+        return res.redirect('/');
+    }
     res.render('user_signIn',{
         title : "Sign In"
     });
 }
 // Sign Up data
 module.exports.signUp = function(req, res){
+    if (req.isAuthenticated()) {
+        return res.redirect('/');
+    }
     res.render('user_signUp',{
         title : "Sign Up"
     });
