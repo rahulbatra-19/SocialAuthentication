@@ -1,10 +1,9 @@
 // require the library
-const mongoose = rewuire('mongoose');
+const mongoose = require('mongoose');
 
 //  Error handling 
-mainModule().catch(err =>{
-    console.log('Error connecting to db', err);
-})
+main().catch(err => console.log('Error connecting to db', err));
+
 
 // connect to data base 
 async function main(){
