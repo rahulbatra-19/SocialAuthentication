@@ -97,8 +97,7 @@ module.exports.resetPassword = async function (req, res) {
 }
 
 
-
-
+// This is for forgot password
 module.exports.forgotPass = function (req, res) {
 
     return res.render('forgot_pass',
@@ -107,6 +106,7 @@ module.exports.forgotPass = function (req, res) {
         });
 }
 
+// This is create a token to verify that you are the user 
 module.exports.passwordForgot = function (req, res) {
     User.findOne({ email: req.body.email }).then(user => {
         if (user) {
@@ -130,12 +130,14 @@ module.exports.passwordForgot = function (req, res) {
     })
 }
 
+// This is for password Change
 module.exports.passChange = function (req, res) {
     res.render('password-change', {
         title: "Change Password"
     });
 }
 
+// This is validate the token and making a new password
 module.exports.resetPass = async function (req, res) {
     try{
     let token = req.body.token;

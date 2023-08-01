@@ -18,7 +18,7 @@ form input{
 
 }
 form input[type="submit"]{
-    width: 30%;
+    width: fit-content;
     margin: auto;
     margin-top: 3%;
     color: white;
